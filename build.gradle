@@ -1,0 +1,4 @@
+allprojects {
+    group = 'net.tajzich.raspberry.demo'
+    version = '1.0.0-SNAPSHOT'
+}

@@ -1,0 +1,7 @@
+<div>
+    <span>{{todo.id}}</span>
+    <span>{{todo.label}}</span>
+    <span>{{todo.description}}</span>
+    <input type="checkbox" ng-model="todo.done" ng-click="doUpdate()" />
+    <button ng-click="doDelete()" class="btn">delete</button>
+</div>
