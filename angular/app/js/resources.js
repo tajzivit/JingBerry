@@ -1,6 +1,6 @@
 var resources = angular.module('demo.resources', []);
 
-resources.constant('raspUrl', 'http://10.0.0.152:9090/server/pi');
+resources.constant('raspUrl', 'http://raspberrypi.local:8080/pi');
 
 resources.factory('PeripheryResource', function ($http, raspUrl) {
 

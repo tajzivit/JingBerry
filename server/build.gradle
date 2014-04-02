@@ -1,8 +1,11 @@
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'war'
-apply plugin: 'jetty'
+apply plugin: 'application'
+
+mainClassName = "net.tajzich.raspberry.demo.app.Main"
+applicationName = "jb"
+
+configurations {
+    angular
+}
 
 def artifacts = [
         [groupId: 'org.springframework', version: '3.2.2.RELEASE', modules: ['spring-core', 'spring-beans', 'spring-test', 'spring-aop', 'spring-context', 'spring-web', 'spring-webmvc']],
@@ -20,14 +23,16 @@ repositories {
 }
 
 dependencies {
-    compile(
-            [group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'],
-            [group: 'org.eclipse.jetty', name: 'jetty-servlets', version: '8.1.10.v20130312']
-    )
 
-    testCompile (
-            [group: 'junit', name: 'junit', version: '4.10']
-    )
+    compile "javax.servlet:javax.servlet-api:3.0.1"
+    compile "org.eclipse.jetty:jetty-servlet:9.0.7.v20131107"
+    compile "org.eclipse.jetty:jetty-servlets:9.0.7.v20131107"
+
+
+    compile project(':angular')
+    angular project(':angular')
+
+    testCompile 'junit:junit:4.10'
 
     artifacts.each { dependency ->
 
@@ -36,3 +41,25 @@ dependencies {
         }
     }
 }
+
+task extractDeps(type: Copy) {
+
+    from {
+        configurations.angular.filter { it.name.startsWith('angular') }.collect {
+            zipTree(it)
+        }
+    }
+    into new File(buildDir, "angular")
+}
+
+applicationDistribution.from(extractDeps) {
+    into "angular"
+}
+
+project.tasks.installApp.doFirst {
+    project.tasks.extractDeps.execute()
+}
+
+task stage(dependsOn: ['clean', 'installApp'])
+
+project.tasks.run.dependsOn(project.tasks.stage)
