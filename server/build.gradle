@@ -1,20 +1,18 @@
-apply plugin: 'application'
+apply plugin: 'spring-boot'
 
-mainClassName = "net.tajzich.raspberry.demo.app.Main"
-applicationName = "jb"
+jar {
+    baseName = 'jb'
+}
 
 configurations {
     angular
 }
 
 def artifacts = [
-        [groupId: 'org.springframework', version: '3.2.2.RELEASE', modules: ['spring-core', 'spring-beans', 'spring-test', 'spring-aop', 'spring-context', 'spring-web', 'spring-webmvc']],
-        [groupId: 'org.codehaus.groovy', version: '2.2.2', modules: ['groovy-all']],
+        [groupId: 'org.codehaus.groovy', version: '2.3.6', modules: ['groovy-all']],
         [groupId: 'org.slf4j', version: '1.7.6', modules: ['slf4j-api', 'jcl-over-slf4j', 'log4j-over-slf4j']],
-        [groupId: 'ch.qos.logback', version: '1.1.1', modules: ['logback-core', 'logback-classic']],
-        [groupId: 'commons-fileupload', version: '1.3.1', modules: ['commons-fileupload']],
+        [groupId: 'ch.qos.logback', version: '1.1.2', modules: ['logback-core', 'logback-classic']],
         [groupId: 'commons-io', version: '2.4', modules: ['commons-io']],
-        [groupId: 'org.codehaus.jackson', version: '1.9.13', modules: ['jackson-mapper-asl']],
         [groupId: 'com.pi4j', version: '0.0.5', modules: ['pi4j-core', 'pi4j-device', 'pi4j-gpio-extension', 'pi4j-service']]
 ]
 
@@ -24,42 +22,40 @@ repositories {
 
 dependencies {
 
-    compile "javax.servlet:javax.servlet-api:3.0.1"
-    compile "org.eclipse.jetty:jetty-servlet:9.0.7.v20131107"
-    compile "org.eclipse.jetty:jetty-servlets:9.0.7.v20131107"
-
-
     compile project(':angular')
     angular project(':angular')
 
-    testCompile 'junit:junit:4.10'
-
     artifacts.each { dependency ->
-
         dependency.modules.each {name ->
             compile group: dependency.groupId, name:name, version: dependency.version
         }
     }
+
+    compile("org.springframework.boot:spring-boot-starter-web"){
+        exclude module: "spring-boot-starter-tomcat"
+    }
+
+    compile "org.springframework.boot:spring-boot-starter-jetty"
+
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.4.2'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.2'
+
+    testCompile "junit:junit"
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
 }
 
-task extractDeps(type: Copy) {
+processResources {
 
-    from {
-        configurations.angular.filter { it.name.startsWith('angular') }.collect {
-            zipTree(it)
+    with {
+        into("static") {
+            from {
+                configurations.angular.filter { it.name.startsWith('angular') }.collect {
+                    zipTree(it)
+                }
+            }
         }
     }
-    into new File(buildDir, "angular")
 }
-
-applicationDistribution.from(extractDeps) {
-    into "angular"
-}
-
-project.tasks.installApp.doFirst {
-    project.tasks.extractDeps.execute()
-}
-
-task stage(dependsOn: ['clean', 'installApp'])
-
-project.tasks.run.dependsOn(project.tasks.stage)

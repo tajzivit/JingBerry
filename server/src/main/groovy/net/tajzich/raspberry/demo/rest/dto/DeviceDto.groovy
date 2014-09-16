@@ -1,12 +1,9 @@
 package net.tajzich.raspberry.demo.rest.dto
 
+import groovy.transform.CompileStatic
 import net.tajzich.raspberry.demo.domain.Device
 
-/**
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/12/13
- */
+@CompileStatic
 class DeviceDto {
 
     String name

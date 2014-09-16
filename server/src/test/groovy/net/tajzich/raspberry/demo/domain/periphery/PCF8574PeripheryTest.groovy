@@ -3,18 +3,12 @@ package net.tajzich.raspberry.demo.domain.periphery
 import org.junit.Before
 import org.junit.Test
 
-/**
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/11/13
- */
 class PCF8574PeripheryTest {
 
     PCF8574Periphery periphery
 
     @Before
     void setUp() {
-
         periphery = new PCF8574Periphery()
     }
 

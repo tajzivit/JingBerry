@@ -1,21 +1,15 @@
 package net.tajzich.raspberry.demo.domain
 
-import ch.qos.logback.classic.Logger
+import com.fasterxml.jackson.annotation.JsonIgnore
+import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
-import org.codehaus.jackson.annotate.JsonIgnore
-import org.slf4j.LoggerFactory
 
 /**
  * Represents Pin of device / periphery. It supports inverted or direct logic of a pin.
- *
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/8/13
  */
+@CompileStatic
 @EqualsAndHashCode(includes = 'number')
 class Pin {
-
-    private static final Logger LOG = LoggerFactory.getLogger(Pin)
 
     int number
     int address

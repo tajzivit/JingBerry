@@ -1,5 +1,6 @@
 package net.tajzich.raspberry.demo.domain.periphery
 
+import groovy.transform.CompileStatic
 import net.tajzich.raspberry.demo.domain.AbstractDevice
 
 /**
@@ -7,9 +8,7 @@ import net.tajzich.raspberry.demo.domain.AbstractDevice
  *
  * @TODO implement it
  *
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/11/13
  */
+@CompileStatic
 class RaspberryPiDevice extends AbstractDevice {
 }

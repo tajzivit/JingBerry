@@ -1,14 +1,11 @@
 package net.tajzich.raspberry.demo.domain
 
-import org.codehaus.jackson.annotate.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnore
+import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-/**
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/8/13
- */
+@CompileStatic
 public abstract class AbstractDevice implements Device {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractDevice)

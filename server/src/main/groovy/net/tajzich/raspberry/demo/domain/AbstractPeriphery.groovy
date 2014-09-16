@@ -1,16 +1,13 @@
 package net.tajzich.raspberry.demo.domain
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.fasterxml.jackson.annotation.JsonProperty
+import groovy.transform.CompileStatic
 import groovy.transform.ToString
-import org.codehaus.jackson.annotate.JsonAutoDetect
-import org.codehaus.jackson.annotate.JsonProperty
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-/**
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/9/13
- */
+@CompileStatic
 @ToString(includes = ['name', 'address'])
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE)
 public abstract class AbstractPeriphery implements Periphery {
@@ -33,7 +30,7 @@ public abstract class AbstractPeriphery implements Periphery {
 
     @Override
     Pin getPin(int number) {
-        return pins.find {it.number == number}
+        return pins.find { it.number == number }
     }
 
     void write(byte data) {
@@ -42,16 +39,13 @@ public abstract class AbstractPeriphery implements Periphery {
 
     byte write() {
 
-        def bits = []
-
-        pins.each {
-            bits << new Bit(it.number, it.voltage)
-        }
+        def bits = pins.collect { new Bit(it.number, it.voltage) }
 
         byte data = PinPower.getValueInByte(bits)
 
         LOG.info("[address=\"$address\"] Writing data '${data & 0xff}'")
         LOG.info("Pins status: $pins")
+        LOG.info("Bits: $bits")
 
         write(data)
 

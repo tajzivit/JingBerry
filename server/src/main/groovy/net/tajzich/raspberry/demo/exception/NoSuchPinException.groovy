@@ -1,10 +1,8 @@
 package net.tajzich.raspberry.demo.exception
 
-/**
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/12/13
- */
+import groovy.transform.CompileStatic
+
+@CompileStatic
 class NoSuchPinException extends CoreException {
 
     NoSuchPinException(int number) {

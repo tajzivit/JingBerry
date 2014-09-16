@@ -1,10 +1,8 @@
 package net.tajzich.raspberry.demo.domain
 
-/**
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/10/13
- */
+import groovy.transform.CompileStatic
+
+@CompileStatic
 class Bit {
 
     int number

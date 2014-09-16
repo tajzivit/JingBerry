@@ -1,15 +1,10 @@
 package net.tajzich.raspberry.demo.domain
 
+import groovy.transform.CompileStatic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import java.nio.ByteBuffer
-
-/**
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/9/13
- */
+@CompileStatic
 class PinPower {
 
     private static final Logger LOG = LoggerFactory.getLogger(PinPower)
@@ -18,36 +13,28 @@ class PinPower {
 
         int power = 1
 
-        if(number == 0) {
+        if (number == 0) {
             return power
         }
 
-        (1..number).each {
-            power = power * 2
-        }
-
-        return power
+        return (1..number).inject(power, { allPower, current -> allPower * 2 }) as Integer
     }
 
     static int getValue(List<Bit> bits) {
 
-        int result = 0
-
-        bits.findAll{it.set}.each {
-            result += getPinPower(it.number)
-        }
+        Integer result = bits.findAll { it.isSet() }.sum { Bit bit -> getPinPower(bit.number) } as Integer
 
         LOG.info("Value of bits: $bits is $result")
 
-        return result
+        return result ?: 0
     }
 
     static byte getValueInByte(List<Bit> bits) {
 
-        if(bits.size() > 8) {
+        if (bits.size() > 8) {
             throw new IllegalArgumentException("Cannot convert more than 8 bits into byte!")
         }
 
-        return (byte)getValue(bits)
+        return (byte) getValue(bits)
     }
 }

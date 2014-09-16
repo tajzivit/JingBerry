@@ -1,12 +1,9 @@
 package net.tajzich.raspberry.demo.rest.dto
 
+import groovy.transform.CompileStatic
 import net.tajzich.raspberry.demo.domain.Pin
 
-/**
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/12/13
- */
+@CompileStatic
 class PinDto {
 
     int number

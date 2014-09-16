@@ -3,6 +3,7 @@ package net.tajzich.raspberry.demo.domain.periphery
 import com.pi4j.io.i2c.I2CBus
 import com.pi4j.io.i2c.I2CDevice
 import com.pi4j.io.i2c.I2CFactory
+import groovy.transform.CompileStatic
 import net.tajzich.raspberry.demo.domain.AbstractPeriphery
 import net.tajzich.raspberry.demo.domain.Pin
 import net.tajzich.raspberry.demo.domain.PinPower
@@ -11,10 +12,8 @@ import net.tajzich.raspberry.demo.domain.PinPower
  * Object representation of PCF 8574 I2C expander. It does have 8 pins to be set in/out and inverted logic:
  * 0 -> +5V out, 1 -> 0V
  *
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/11/13
  */
+@CompileStatic
 class PCF8574Periphery extends AbstractPeriphery {
 
     @Override

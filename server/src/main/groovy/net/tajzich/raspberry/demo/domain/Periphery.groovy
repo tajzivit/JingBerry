@@ -1,15 +1,9 @@
 package net.tajzich.raspberry.demo.domain
 
-import net.tajzich.raspberry.demo.exception.NoSuchPinException
-
 /**
  * Periphery interface
- *
- * Created with IntelliJ IDEA.
- * User: vtajzich
- * Date: 5/11/13
  */
-public interface Periphery {
+public interface Periphery extends PinDevice {
 
     /**
      * @return name of periphery
@@ -20,18 +14,6 @@ public interface Periphery {
      * @return address of periphery
      */
     int getAddress()
-
-    /**
-     * @return list of pins
-     */
-    List<Pin> getPins()
-
-    /**
-     * @param number number of pin
-     * @return pin for given number
-     * @throws NoSuchPinException if pin for given number is not found!
-     */
-    Pin getPin(int number) throws NoSuchPinException
 
     /**
      * Writes give data to real HW
